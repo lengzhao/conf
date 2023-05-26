@@ -15,6 +15,10 @@ func SaveToENV(e map[string]string, cover bool) {
 
 var localConf map[string]string
 
+func init() {
+	localConf = make(map[string]string)
+}
+
 func SaveToMemory(e map[string]string, cover bool) {
 	for k, v := range e {
 		if !cover {
