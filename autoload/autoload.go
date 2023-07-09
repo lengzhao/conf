@@ -1,10 +1,18 @@
 package autoload
 
-import "github.com/lengzhao/conf"
+import (
+	"log"
+
+	"github.com/lengzhao/conf"
+)
 
 func init() {
-	conf.Load(func(e map[string]string, cover bool) {
+	fn := conf.LoadAnyOne(func(e map[string]string, cover bool) {
 		conf.SaveToMemory(e, true)
 		conf.SaveToENV(e, true)
-	}, true, ".env", "conf.json")
+	}, true, ".env", "conf.json", "config.json", "conf.yml", "config.yml")
+
+	if fn == "" {
+		log.Println("not found any config file")
+	}
 }

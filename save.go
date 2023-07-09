@@ -4,12 +4,11 @@ import "os"
 
 func SaveToENV(e map[string]string, cover bool) {
 	for k, v := range e {
-		if !cover {
-			if os.Getenv(k) != "" {
-				continue
-			}
+		nv := os.Getenv(k)
+		if nv == "" || cover {
+			nv = v
 		}
-		os.Setenv(k, v)
+		os.Setenv(k, nv)
 	}
 }
 
@@ -21,11 +20,8 @@ func init() {
 
 func SaveToMemory(e map[string]string, cover bool) {
 	for k, v := range e {
-		if !cover {
-			if localConf[k] != "" {
-				continue
-			}
+		if _, ok := localConf[k]; !ok || cover {
+			localConf[k] = v
 		}
-		localConf[k] = v
 	}
 }

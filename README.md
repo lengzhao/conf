@@ -1,6 +1,14 @@
 # conf
 
-load .env and conf.json to os env.
+load config file to os env.
+
+support files(anyone):
+
+1. .env
+2. conf.json
+3. config.json
+4. conf.yml
+5. config.yml
 
 you can get configuration by os.Getenv
 
