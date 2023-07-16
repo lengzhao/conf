@@ -3,7 +3,6 @@ package conf
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -24,15 +23,21 @@ func ParseDotENV(data string) map[string]string {
 	lines := strings.Split(data, "\n")
 	for _, it := range lines {
 		it = strings.TrimSpace(it)
+		if len(it) < 2 {
+			continue
+		}
 		if strings.HasPrefix(it, "#") {
 			continue
 		}
 		index := strings.IndexAny(it, "=:")
 		if index == -1 || index >= len(it) {
-			log.Println("unknow item:", it, index)
+			// log.Println("unknow config item:", it, index)
 			continue
 		}
 		key := strings.TrimSpace(it[:index])
+		if len(key) == 0 {
+			continue
+		}
 		value := strings.TrimSpace(it[index+1:])
 
 		out[key] = value
