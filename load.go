@@ -69,3 +69,12 @@ func LoadAnyOne(cb LoadCB, cover bool, files ...string) string {
 	}
 	return ""
 }
+
+func LoadOneToENV(files ...string) string {
+	if len(files) == 0 {
+		files = append(files, ".env", "conf.json", "config.json", "conf.yml", "config.yml")
+	}
+	return LoadAnyOne(func(e map[string]string, cover bool) {
+		SaveToENV(e, true)
+	}, true, files...)
+}
