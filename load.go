@@ -70,6 +70,11 @@ func LoadAnyOne(cb LoadCB, cover bool, files ...string) string {
 	return ""
 }
 
+// LoadOneToENV loads one config file into the environment variables.
+//
+// If no files are provided, it loads the default set of files: ".env", "conf.json", "config.json", "conf.yml", and "config.yml".
+//
+// The function returns a string representing the result of loading the files into the environment variables.
 func LoadOneToENV(files ...string) string {
 	if len(files) == 0 {
 		files = append(files, ".env", "conf.json", "config.json", "conf.yml", "config.yml")
