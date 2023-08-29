@@ -29,7 +29,55 @@ func GetInt(key string, defaultValue int) int {
 	return v
 }
 
-func GetFloat(key string, defaultValue float64) float64 {
+func GetInt64(key string, defaultValue int64) int64 {
+	str := Get(key, "")
+	if len(str) == 0 {
+		return defaultValue
+	}
+	v, err := strconv.ParseInt(str, 10, 64)
+	if err != nil {
+		return defaultValue
+	}
+	return v
+}
+
+func GetUInt(key string, defaultValue uint) uint {
+	str := Get(key, "")
+	if len(str) == 0 {
+		return defaultValue
+	}
+	v, err := strconv.ParseUint(str, 10, 32)
+	if err != nil {
+		return defaultValue
+	}
+	return uint(v)
+}
+
+func GetUInt64(key string, defaultValue uint64) uint64 {
+	str := Get(key, "")
+	if len(str) == 0 {
+		return defaultValue
+	}
+	v, err := strconv.ParseUint(str, 10, 64)
+	if err != nil {
+		return defaultValue
+	}
+	return v
+}
+
+func GetFloat(key string, defaultValue float32) float32 {
+	str := Get(key, "")
+	if len(str) == 0 {
+		return defaultValue
+	}
+	v, err := strconv.ParseFloat(str, 32)
+	if err != nil {
+		return defaultValue
+	}
+	return float32(v)
+}
+
+func GetFloat64(key string, defaultValue float64) float64 {
 	str := Get(key, "")
 	if len(str) == 0 {
 		return defaultValue
