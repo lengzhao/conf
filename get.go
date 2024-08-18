@@ -3,6 +3,7 @@ package conf
 import (
 	"os"
 	"strconv"
+	"strings"
 )
 
 func Get(key, defaultValue string) string {
@@ -41,7 +42,7 @@ func GetInt64(key string, defaultValue int64) int64 {
 	return v
 }
 
-func GetUInt(key string, defaultValue uint) uint {
+func GetUint(key string, defaultValue uint) uint {
 	str := Get(key, "")
 	if len(str) == 0 {
 		return defaultValue
@@ -53,7 +54,7 @@ func GetUInt(key string, defaultValue uint) uint {
 	return uint(v)
 }
 
-func GetUInt64(key string, defaultValue uint64) uint64 {
+func GetUint64(key string, defaultValue uint64) uint64 {
 	str := Get(key, "")
 	if len(str) == 0 {
 		return defaultValue
@@ -87,4 +88,19 @@ func GetFloat64(key string, defaultValue float64) float64 {
 		return defaultValue
 	}
 	return v
+}
+
+func GetBool(key string, defaultValue bool) bool {
+	str := Get(key, "")
+	if len(str) == 0 {
+		return defaultValue
+	}
+	str = strings.ToLower(str)
+	switch str {
+	case "true", "1":
+		return true
+	case "false", "0":
+		return false
+	}
+	return defaultValue
 }

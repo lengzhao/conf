@@ -3,7 +3,9 @@ package conf
 import (
 	"fmt"
 	"os"
+	"os/user"
 	"path"
+	"strings"
 )
 
 type LoadCB func(e map[string]string, cover bool)
@@ -28,7 +30,7 @@ func Load(cb LoadCB, cover bool, fn string) error {
 	default:
 		return fmt.Errorf("unknow ext:%s", path.Ext(fn))
 	}
-	cb(items, true)
+	cb(items, cover)
 	return nil
 }
 
@@ -78,8 +80,27 @@ func LoadAnyOne(cb LoadCB, cover bool, files ...string) string {
 func LoadOneToENV(files ...string) string {
 	if len(files) == 0 {
 		files = append(files, ".env", "conf.json", "config.json", "conf.yml", "config.yml")
+		dir := GetAppDir()
+		files = append(files, path.Join(dir, ".env"))
+		files = append(files, path.Join(dir, "conf.json"))
+		files = append(files, path.Join(dir, "config.json"))
+		files = append(files, path.Join(dir, "conf.yml"))
+		files = append(files, path.Join(dir, "config.yml"))
 	}
 	return LoadAnyOne(func(e map[string]string, cover bool) {
 		SaveToENV(e, true)
 	}, true, files...)
+}
+
+func GetAppDir() string {
+	u, err := user.Current()
+	if err != nil {
+		return "."
+	}
+	appName := path.Base(os.Args[0])
+	split := strings.Split(appName, ".")
+	if len(split) == 0 {
+		return "."
+	}
+	return path.Join(u.HomeDir, split[0])
 }
