@@ -92,7 +92,14 @@ func LoadOneToENV(files ...string) string {
 	}, true, files...)
 }
 
+var workdir string
+
+// return homedir + .appName, such as: ~/.appName
+// if not exist, will create it
 func GetAppDir() string {
+	if workdir != "" {
+		return workdir
+	}
 	u, err := user.Current()
 	if err != nil {
 		return "."
@@ -102,5 +109,6 @@ func GetAppDir() string {
 	if len(split) == 0 {
 		return "."
 	}
-	return path.Join(u.HomeDir, split[0])
+	workdir = path.Join(u.HomeDir, "."+split[0])
+	return workdir
 }

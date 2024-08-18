@@ -32,4 +32,15 @@ func main() {
 			log.Panic("fail to load conf.json")
 		}
 	}
+	{
+		conf.Load(conf.SaveToENV, false, ".env")
+		v1 := os.Getenv("JsonKey")
+		if v1 != "JsonValue" {
+			log.Panic("fail to load conf.json")
+		}
+		v2 := os.Getenv("JsonInt")
+		if v2 != "100" {
+			log.Panic("fail to load conf.json")
+		}
+	}
 }
